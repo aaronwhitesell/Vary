@@ -3,11 +3,11 @@
 #include "../Resources/resourceIdentifiers.h"
 //#include "../Game/State/gameState.h"
 //#include "../Game/State/gameOverState.h"
-//#include "../Game/State/menuState.h"
+#include "../States/menuState.h"
 //#include "../Game/State/pauseState.h"
-//#include "../Game/State/settingsState.h"
-//#include "../Game/State/stateIdentifiers.h"
-//#include "../Game/State/titleState.h"
+#include "../States/settingsState.h"
+#include "../States/stateIdentifiers.h"
+#include "../States/titleState.h"
 
 #include "Trambo/States/state.h"
 
@@ -48,8 +48,8 @@ Application::Application()
 	mStatisticsText.setPosition(5.f, 5.f);
 	mStatisticsText.setCharacterSize(10u);
 
-//	registerStates();
-//	mStateStack.pushState(States::ID::Title);
+	registerStates();
+	mStateStack.pushState(States::ID::Title);
 
 	mMusic.setVolume(75.f);
 }
@@ -71,8 +71,8 @@ void Application::run()
 			update(TimePerFrame);
 
 			// ALW - Stack might be empty after call to update(sf::Time)
-//			if (mStateStack.isEmpty())
-//				mWindow.close();
+			if (mStateStack.isEmpty())
+				mWindow.close();
 		}
 
 		updateStatistics(dt);
@@ -124,10 +124,10 @@ void Application::updateStatistics(sf::Time dt)
 
 void Application::registerStates()
 {
-//	mStateStack.registerState<TitleState>(States::ID::Title);
-//	mStateStack.registerState<MenuState>(States::ID::Menu);
+	mStateStack.registerState<TitleState>(States::ID::Title);
+	mStateStack.registerState<MenuState>(States::ID::Menu);
 //	mStateStack.registerState<GameState>(States::ID::Game);
 //	mStateStack.registerState<PauseState>(States::ID::Pause);
-//	mStateStack.registerState<SettingsState>(States::ID::Settings);
+	mStateStack.registerState<SettingsState>(States::ID::Settings);
 //	mStateStack.registerState<GameOverState>(States::ID::GameOver);
 }

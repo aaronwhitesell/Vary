@@ -1,64 +1,65 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-//#include "../Engine/Command/command.h"
-//#include "../Engine/Input/input.h"
+#include "Trambo/Inputs/actionBinding.h"
+#include "Trambo/Inputs/keyboardKeyAsButton.h"
+#include "Trambo/Inputs/mouseButtonAsButton.h"
 
 #include <SFML/Window/Event.hpp>
 
-#include <map>
+#include <vector>
 
-
-//class CommandQueue;
 
 class Player
 {
 public:
 	enum Action
 	{
-		MoveLeft,
-		MoveRight,
 		MoveUp,
 		MoveDown,
-		Fire,
-//		LaunchMissile,
-//		ActionCount
+		MoveLeft,
+		MoveRight,
+		Jump,
+		Shoot,
+		ActionCount
 	};
-
-//	enum class MissionStatus
-//	{
-//		MissionRunning,
-//		MissionSuccess,
-//		MissionFailure
-//	};
 
 
 public:
-	Player();
+							Player();
+							Player(const Player &) = delete;
+	Player &				operator=(const Player &) = delete;
 
-//	void					handleEvent(const sf::Event& event, CommandQueue& commands);
-//	void					handleRealtimeInput(CommandQueue& commands);
+	const trmb::ActionBinding::EventGuid	getUp() const;
+	const trmb::ActionBinding::EventGuid	getDown() const;
+	const trmb::ActionBinding::EventGuid	getLeft() const;
+	const trmb::ActionBinding::EventGuid	getRight() const;
+	const trmb::ActionBinding::EventGuid	getJump() const;
+	const trmb::ActionBinding::EventGuid	getShoot() const;
 
-//	void					assignKeyboardKey(Action action, sf::Keyboard::Key key);
-//	void					assignMouseButton(Action action, sf::Mouse::Button button);
-//	sf::Keyboard::Key       getAssignedKeyboardKey(Action action) const;
-//	sf::Mouse::Button       getAssignedMouseButton(Action action) const;
+	const std::vector<trmb::ActionBinding::ActionSharedPtr> &	getActions() const;
 
-//	void					setMissionStatus(MissionStatus status);
-//	MissionStatus			getMissionStatus() const;
+	sf::Keyboard::Key       getInputFromKeyboardKeyAsButtonBinding(trmb::ActionBinding::EventGuid eventGuid) const;
+	sf::Mouse::Button       getInputFromMouseButtonAsButtonBinding(trmb::ActionBinding::EventGuid eventGuid) const;
+
+	void					update();
+	void					handleEvent(const sf::Event &inputEvent);
+
+	void					assignKeyboardKeyAsButtonBinding(const trmb::KeyboardKeyAsButton &keyboardKeyAsButton, trmb::ActionBinding::EventGuid eventGuid);
+	void					assignMouseButtonAsButtonBinding(const trmb::MouseButtonAsButton &MouseButtonAsButton, trmb::ActionBinding::EventGuid eventGuid);
 
 
 private:
-//	void					initializeActions();
-//	static bool				isRealtimeAction(Action action);
+	const trmb::ActionBinding::EventGuid	mUp    = 0x84b05719;
+	const trmb::ActionBinding::EventGuid	mDown  = 0xa95ea771;
+	const trmb::ActionBinding::EventGuid	mLeft  = 0x84e6c13c;
+	const trmb::ActionBinding::EventGuid	mRight = 0x19e343e8;
+	const trmb::ActionBinding::EventGuid	mJump  = 0x6955d309;
+	const trmb::ActionBinding::EventGuid	mShoot = 0x3e6524cd;
 
 
 private:
-//	std::map<sf::Keyboard::Key, Action>		  mKeyboardBinding;
-//	std::map<sf::Mouse::Button, Action>		  mMouseBinding;
-	// ALW - TODO - Joystick binding
-//	std::map<Action, Command>				  mActionBinding;
-//	MissionStatus							  mCurrentMissionStatus;
+	trmb::ActionBinding						mActionBindings;
 };
 
 #endif

@@ -79,12 +79,21 @@
   <ItemGroup>
     <ClCompile Include="Application\application.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player\devices.cpp" />
     <ClCompile Include="Player\player.cpp" />
+    <ClCompile Include="States\menuState.cpp" />
+    <ClCompile Include="States\settingsState.cpp" />
+    <ClCompile Include="States\titleState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\application.h" />
+    <ClInclude Include="Player\devices.h" />
     <ClInclude Include="Player\player.h" />
     <ClInclude Include="Resources\resourceIdentifiers.h" />
+    <ClInclude Include="States\menuState.h" />
+    <ClInclude Include="States\settingsState.h" />
+    <ClInclude Include="States\stateIdentifiers.h" />
+    <ClInclude Include="States\titleState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

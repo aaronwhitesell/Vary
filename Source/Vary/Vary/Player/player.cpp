@@ -1,226 +1,86 @@
 #include "player.h"
-//#include "SceneNode/aircraft.h"
 
-//#include "../Engine/Command/commandQueue.h"
-
-#include <algorithm>
-#include <map>
-#include <string>
-
-//using namespace std::placeholders;
-
-
-//struct AircraftMover
-//{
-//	AircraftMover(float vx, float vy)
-//		: velocity(vx, vy)
-//	{
-//	}
-//
-//	void operator() (Aircraft& aircraft, sf::Time) const
-//	{
-//		aircraft.accelerate(velocity * aircraft.getMaxSpeed());
-//	}
-//
-//	sf::Vector2f velocity;
-//};
 
 Player::Player()
-//	: mCurrentMissionStatus(MissionStatus::MissionRunning)
 {
-	// Set initial key bindings
-//	mKeyboardBinding[sf::Keyboard::A] = MoveLeft;
-//	mKeyboardBinding[sf::Keyboard::D] = MoveRight;
-//	mKeyboardBinding[sf::Keyboard::W] = MoveUp;
-//	mKeyboardBinding[sf::Keyboard::S] = MoveDown;
-//	mMouseBinding[sf::Mouse::Left] = Fire;
-//	mMouseBinding[sf::Mouse::Right] = LaunchMissile;
+	// ALW - Create a map of event guids and corresponding actions
+	mActionBindings.createAction(mUp);
+	mActionBindings.createAction(mDown);
+	mActionBindings.createAction(mLeft);
+	mActionBindings.createAction(mRight);
+	mActionBindings.createAction(mJump);
+	mActionBindings.createAction(mShoot);
 
-	// Set initial action bindings
-//	initializeActions();
-
-	// Assign all categories to player's aircraft
-//	for (auto& pair : mActionBinding)
-//		pair.second.category = Category::PlayerAircraft;
+	// ALW - Create a map of keyboard buttons and corresponding actions (default bindings)
+	mActionBindings.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(sf::Keyboard::Up,    trmb::KeyboardKeyAsButton::ButtonType::RealTime), mUp);
+	mActionBindings.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(sf::Keyboard::Down,  trmb::KeyboardKeyAsButton::ButtonType::RealTime), mDown);
+	mActionBindings.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(sf::Keyboard::Left,  trmb::KeyboardKeyAsButton::ButtonType::RealTime), mLeft);
+	mActionBindings.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(sf::Keyboard::Right, trmb::KeyboardKeyAsButton::ButtonType::RealTime), mRight);
+	mActionBindings.assignMouseButtonAsButtonBinding(trmb::MouseButtonAsButton(sf::Mouse::Right,    trmb::MouseButtonAsButton::ButtonType::RealTime), mJump);
+	mActionBindings.assignMouseButtonAsButtonBinding(trmb::MouseButtonAsButton(sf::Mouse::Left,		trmb::MouseButtonAsButton::ButtonType::RealTime), mShoot);
 }
 
-/*
-void Player::handleEvent(const sf::Event& event, CommandQueue& commands)
+const trmb::ActionBinding::EventGuid Player::getUp() const
 {
-	if (Input::isKeyboardEnabled() && event.type == sf::Event::KeyPressed)
-	{
-		// Check if pressed key appears in key binding, trigger command if so
-		auto found = mKeyboardBinding.find(event.key.code);
-		if (found != mKeyboardBinding.end() && !isRealtimeAction(found->second))
-			commands.push(mActionBinding[found->second]);
-	}
-	else if (Input::isMouseEnabled() && event.type == sf::Event::MouseButtonPressed)
-	{
-		// Check if pressed button appears in button binding, trigger command if so
-		auto found = mMouseBinding.find(event.mouseButton.button);
-		if (found != mMouseBinding.end() && !isRealtimeAction(found->second))
-			commands.push(mActionBinding[found->second]);
-	}
-
-	// ALW - TODO - Joystick binding
-
+	return mUp;
 }
-*/
 
-/*
-void Player::handleRealtimeInput(CommandQueue& commands)
+const trmb::ActionBinding::EventGuid Player::getDown() const
 {
-	if (Input::isKeyboardEnabled())
-	{
-		// Traverse all bound keyboard keys and check if they are pressed
-		for (auto pair : mKeyboardBinding)
-		{
-			// If key is pressed, lookup action and trigger corresponding command
-			if (sf::Keyboard::isKeyPressed(pair.first) && isRealtimeAction(pair.second))
-				commands.push(mActionBinding[pair.second]);
-		}
-	}
-
-	if (Input::isMouseEnabled())
-	{
-		// Traverse all bound mouse buttons and check if they are pressed
-		for (auto pair : mMouseBinding)
-		{
-			// If key is pressed, lookup action and trigger corresponding command
-			if (sf::Mouse::isButtonPressed(pair.first) && isRealtimeAction(pair.second))
-				commands.push(mActionBinding[pair.second]);
-		}
-	}
-
-	// ALW - TODO - Joystick binding
-
+	return mDown;
 }
-*/
 
-/*
-void Player::assignKeyboardKey(Action action, sf::Keyboard::Key key)
+const trmb::ActionBinding::EventGuid Player::getLeft() const
 {
-	// ALW - Remove all keyboard keys that already map to action
-	for (auto itr = mKeyboardBinding.begin(); itr != mKeyboardBinding.end();)
-	{
-		if (itr->second == action)
-			mKeyboardBinding.erase(itr++);
-		else
-			++itr;
-	}
-
-	// ALW Remove all mouse buttons that already map to action
-	for (auto itr = mMouseBinding.begin(); itr != mMouseBinding.end();)
-	{
-		if (itr->second == action)
-			mMouseBinding.erase(itr++);
-		else
-			++itr;
-	}
-
-	// ALW - TODO - Joystick binding
-
-	// Insert new binding
-	mKeyboardBinding[key] = action;
+	return mLeft;
 }
-*/
 
-/*
-void Player::assignMouseButton(Action action, sf::Mouse::Button button)
+const trmb::ActionBinding::EventGuid Player::getRight() const
 {
-	// ALW - Remove all keyboard keys that already map to action
-	for (auto itr = mKeyboardBinding.begin(); itr != mKeyboardBinding.end();)
-	{
-		if (itr->second == action)
-			mKeyboardBinding.erase(itr++);
-		else
-			++itr;
-	}
-
-	// ALW Remove all mouse buttons that already map to action
-	for (auto itr = mMouseBinding.begin(); itr != mMouseBinding.end();)
-	{
-		if (itr->second == action)
-			mMouseBinding.erase(itr++);
-		else
-			++itr;
-	}
-
-	// ALW - TODO - Joystick binding
-
-	// Insert new binding
-	mMouseBinding[button] = action;
+	return mRight;
 }
-*/
 
-/*
-sf::Keyboard::Key Player::getAssignedKeyboardKey(Action action) const
+const trmb::ActionBinding::EventGuid Player::getJump() const
 {
-	for (auto pair : mKeyboardBinding)
-	{
-		if (pair.second == action)
-			return pair.first;
-	}
-
-	// ALW - Hack - Allows check to be made, if action does not correspond to a key.
-	return sf::Keyboard::Unknown;
+	return mJump;
 }
-*/
 
-/*
-sf::Mouse::Button Player::getAssignedMouseButton(Action action) const
+const trmb::ActionBinding::EventGuid Player::getShoot() const
 {
-	for (auto pair : mMouseBinding)
-	{
-		if (pair.second == action)
-			return pair.first;
-	}
-
-	// ALW - Hack - Allows check to be made, if action does not correspond to a button.
-	return sf::Mouse::Button::ButtonCount;
+	return mShoot;
 }
-*/
 
-/*
-void Player::setMissionStatus(MissionStatus status)
+const std::vector<trmb::ActionBinding::ActionSharedPtr> & Player::getActions() const
 {
-	mCurrentMissionStatus = status;
+	return mActionBindings.getActions();
 }
-*/
 
-/*
-Player::MissionStatus Player::getMissionStatus() const
+sf::Keyboard::Key Player::getInputFromKeyboardKeyAsButtonBinding(trmb::ActionBinding::EventGuid eventGuid) const
 {
-	return mCurrentMissionStatus;
+	return mActionBindings.getInputFromKeyboardKeyAsButtonBinding(eventGuid);
 }
-*/
 
-/*
-void Player::initializeActions()
+sf::Mouse::Button Player::getInputFromMouseButtonAsButtonBinding(trmb::ActionBinding::EventGuid eventGuid) const
 {
-	mActionBinding[MoveLeft].action = derivedAction<Aircraft>(AircraftMover(-1, 0.f));
-	mActionBinding[MoveRight].action = derivedAction<Aircraft>(AircraftMover(+1, 0.f));
-	mActionBinding[MoveUp].action = derivedAction<Aircraft>(AircraftMover(0.f, -1));
-	mActionBinding[MoveDown].action = derivedAction<Aircraft>(AircraftMover(0.f, +1));
-	mActionBinding[Fire].action = derivedAction<Aircraft>([](Aircraft& a, sf::Time){ a.fire(); });
-	mActionBinding[LaunchMissile].action = derivedAction<Aircraft>([](Aircraft& a, sf::Time){ a.launchMissile(); });
+	return mActionBindings.getInputFromMouseButtonAsButtonBinding(eventGuid);
 }
-*/
 
-/*
-bool Player::isRealtimeAction(Action action)
+void Player::update()
 {
-	switch (action)
-	{
-	case MoveLeft:
-	case MoveRight:
-	case MoveDown:
-	case MoveUp:
-	case Fire:
-		return true;
-
-	default:
-		return false;
-	}
+	mActionBindings.update();
 }
-*/
+
+void Player::handleEvent(const sf::Event &inputEvent)
+{
+	mActionBindings.handleEvent(inputEvent);
+}
+
+void Player::assignKeyboardKeyAsButtonBinding(const trmb::KeyboardKeyAsButton &keyboardKeyAsButton, trmb::ActionBinding::EventGuid eventGuid)
+{
+	mActionBindings.assignKeyboardKeyAsButtonBinding(keyboardKeyAsButton, eventGuid);
+}
+
+void Player::assignMouseButtonAsButtonBinding(const trmb::MouseButtonAsButton &mouseButtonAsButton, trmb::ActionBinding::EventGuid eventGuid)
+{
+	mActionBindings.assignMouseButtonAsButtonBinding(mouseButtonAsButton, eventGuid);
+}
