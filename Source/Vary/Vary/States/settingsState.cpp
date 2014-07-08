@@ -1,5 +1,6 @@
 #include "settingsState.h"
 #include "../Player/devices.h"
+#include "../Player/player.h"
 #include "../Resources/resourceIdentifiers.h"
 
 #include "Trambo/Inputs/keyboardKeyAsButton.h"
@@ -22,12 +23,12 @@ SettingsState::SettingsState(trmb::StateStack& stack, trmb::State::Context conte
 	mBackgroundSprite.setTexture(context.textures->get(Textures::ID::TitleScreen));
 
 	// Build key binding buttons and labels
-	addButtonAndLabel(Player::MoveUp,    200.f, "Move Up",    context);
-	addButtonAndLabel(Player::MoveDown,  250.f, "Move Down",  context);
-	addButtonAndLabel(Player::MoveLeft,  300.f, "Move Left",  context);
-	addButtonAndLabel(Player::MoveRight, 350.f, "Move Right", context);
-	addButtonAndLabel(Player::Jump,		 400.f, "Jump",       context);
-	addButtonAndLabel(Player::Shoot,     450.f, "Shoot",      context);
+	addButtonAndLabel(Controller::MoveUp,    200.f, "Move Up",    context);
+	addButtonAndLabel(Controller::MoveDown,  250.f, "Move Down",  context);
+	addButtonAndLabel(Controller::MoveLeft,  300.f, "Move Left",  context);
+	addButtonAndLabel(Controller::MoveRight, 350.f, "Move Right", context);
+	addButtonAndLabel(Controller::Jump,		 400.f, "Jump",		  context);
+	addButtonAndLabel(Controller::Shoot,	 450.f, "Shoot",	  context);
 
 	updateLabels();
 
@@ -58,7 +59,7 @@ bool SettingsState::handleEvent(const sf::Event& event)
 	bool isUpdateLabel = false;
 
 	// Iterate through all key binding buttons to see if they are being pressed, waiting for the user to enter a key
-	for (std::size_t action = 0; action < Player::ActionCount; ++action)
+	for (std::size_t action = 0; action < Controller::ActionCount; ++action)
 	{
 		if (mBindingButtons[action]->isActive())
 		{
@@ -66,27 +67,27 @@ bool SettingsState::handleEvent(const sf::Event& event)
 			bool isDeactivateButton = false;
 			if (Devices::isKeyboardEnabled() && event.type == sf::Event::KeyReleased)
 			{
-				Player& player = *getContext().player;
+				Controller &controller = getContext().player->getController();
 
 				switch (action)
 				{
-				case Player::MoveUp:
-					player.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(event.key.code, trmb::KeyboardKeyAsButton::ButtonType::RealTime), player.getUp());
+				case Controller::MoveUp:
+					controller.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(event.key.code, trmb::KeyboardKeyAsButton::ButtonType::RealTime), controller.getUp());
 					break;
-				case Player::MoveDown:
-					player.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(event.key.code, trmb::KeyboardKeyAsButton::ButtonType::RealTime), player.getDown());
+				case Controller::MoveDown:
+					controller.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(event.key.code, trmb::KeyboardKeyAsButton::ButtonType::RealTime), controller.getDown());
 					break;
-				case Player::MoveLeft:
-					player.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(event.key.code, trmb::KeyboardKeyAsButton::ButtonType::RealTime), player.getLeft());
+				case Controller::MoveLeft:
+					controller.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(event.key.code, trmb::KeyboardKeyAsButton::ButtonType::RealTime), controller.getLeft());
 					break;
-				case Player::MoveRight:
-					player.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(event.key.code, trmb::KeyboardKeyAsButton::ButtonType::RealTime), player.getRight());
+				case Controller::MoveRight:
+					controller.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(event.key.code, trmb::KeyboardKeyAsButton::ButtonType::RealTime), controller.getRight());
 					break;
-				case Player::Jump:
-					player.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(event.key.code, trmb::KeyboardKeyAsButton::ButtonType::RealTime), player.getJump());
+				case Controller::Jump:
+					controller.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(event.key.code, trmb::KeyboardKeyAsButton::ButtonType::RealTime), controller.getJump());
 					break;
-				case Player::Shoot:
-					player.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(event.key.code, trmb::KeyboardKeyAsButton::ButtonType::RealTime), player.getShoot());
+				case Controller::Shoot:
+					controller.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(event.key.code, trmb::KeyboardKeyAsButton::ButtonType::RealTime), controller.getShoot());
 					break;
 				default:
 					assert(("Logic Error: Mismatched enum Action and switch statement!", false));
@@ -97,27 +98,27 @@ bool SettingsState::handleEvent(const sf::Event& event)
 			}
 			else if (Devices::isMouseEnabled() && event.type == sf::Event::MouseButtonReleased)
 			{
-				Player& player = *getContext().player;
+				Controller &controller = getContext().player->getController();
 
 				switch (action)
 				{
-				case Player::MoveUp:
-					player.assignMouseButtonAsButtonBinding(trmb::MouseButtonAsButton(event.mouseButton.button, trmb::MouseButtonAsButton::ButtonType::RealTime), player.getUp());
+				case Controller::MoveUp:
+					controller.assignMouseButtonAsButtonBinding(trmb::MouseButtonAsButton(event.mouseButton.button, trmb::MouseButtonAsButton::ButtonType::RealTime), controller.getUp());
 					break;
-				case Player::MoveDown:
-					player.assignMouseButtonAsButtonBinding(trmb::MouseButtonAsButton(event.mouseButton.button, trmb::MouseButtonAsButton::ButtonType::RealTime), player.getDown());
+				case Controller::MoveDown:
+					controller.assignMouseButtonAsButtonBinding(trmb::MouseButtonAsButton(event.mouseButton.button, trmb::MouseButtonAsButton::ButtonType::RealTime), controller.getDown());
 					break;
-				case Player::MoveLeft:
-					player.assignMouseButtonAsButtonBinding(trmb::MouseButtonAsButton(event.mouseButton.button, trmb::MouseButtonAsButton::ButtonType::RealTime), player.getLeft());
+				case Controller::MoveLeft:
+					controller.assignMouseButtonAsButtonBinding(trmb::MouseButtonAsButton(event.mouseButton.button, trmb::MouseButtonAsButton::ButtonType::RealTime), controller.getLeft());
 					break;
-				case Player::MoveRight:
-					player.assignMouseButtonAsButtonBinding(trmb::MouseButtonAsButton(event.mouseButton.button, trmb::MouseButtonAsButton::ButtonType::RealTime), player.getRight());
+				case Controller::MoveRight:
+					controller.assignMouseButtonAsButtonBinding(trmb::MouseButtonAsButton(event.mouseButton.button, trmb::MouseButtonAsButton::ButtonType::RealTime), controller.getRight());
 					break;
-				case Player::Jump:
-					player.assignMouseButtonAsButtonBinding(trmb::MouseButtonAsButton(event.mouseButton.button, trmb::MouseButtonAsButton::ButtonType::RealTime), player.getShoot());
+				case Controller::Jump:
+					controller.assignMouseButtonAsButtonBinding(trmb::MouseButtonAsButton(event.mouseButton.button, trmb::MouseButtonAsButton::ButtonType::RealTime), controller.getShoot());
 					break;
-				case Player::Shoot:
-					player.assignMouseButtonAsButtonBinding(trmb::MouseButtonAsButton(event.mouseButton.button, trmb::MouseButtonAsButton::ButtonType::RealTime), player.getJump());
+				case Controller::Shoot:
+					controller.assignMouseButtonAsButtonBinding(trmb::MouseButtonAsButton(event.mouseButton.button, trmb::MouseButtonAsButton::ButtonType::RealTime), controller.getJump());
 					break;
 				default:
 					assert(("Logic Error: Mismatched enum Action and switch statement!", false));
@@ -158,18 +159,19 @@ void SettingsState::updateLabels()
 	const Player& player = *getContext().player;
 
 	typedef std::pair<bool, sf::Keyboard::Key> KeyboardKeyBindState;
-	std::vector<KeyboardKeyBindState> keyboardBindState(Player::ActionCount, KeyboardKeyBindState(false, sf::Keyboard::Key::Unknown));
+	std::vector<KeyboardKeyBindState> keyboardBindState(Controller::ActionCount, KeyboardKeyBindState(false, sf::Keyboard::Key::Unknown));
 
 	typedef std::pair<bool, sf::Mouse::Button> MouseButtonBindState;
-	std::vector<MouseButtonBindState> mouseBindState(Player::ActionCount, MouseButtonBindState(false, sf::Mouse::ButtonCount));
+	std::vector<MouseButtonBindState> mouseBindState(Controller::ActionCount, MouseButtonBindState(false, sf::Mouse::ButtonCount));
 
 	if (Devices::isKeyboardEnabled())
 	{
 		std::size_t index = 0;
-		const auto actions = getContext().player->getActions();
+		const auto &actions = getContext().player->getController().getActions();
+		const auto &controller = getContext().player->getController();
 		for (const auto element : actions)
 		{
-			sf::Keyboard::Key key = player.getInputFromKeyboardKeyAsButtonBinding(element->getGameEvent().getType());
+			sf::Keyboard::Key key = controller.getInputFromKeyboardKeyAsButtonBinding(element->getGameEvent().getType());
 			if (key == sf::Keyboard::Key::Unknown)
 				keyboardBindState[index] = KeyboardKeyBindState(false, sf::Keyboard::Key::Unknown);
 			else
@@ -182,10 +184,11 @@ void SettingsState::updateLabels()
 	if (Devices::isMouseEnabled())
 	{
 		std::size_t index = 0;
-		const auto actions = getContext().player->getActions();
+		const auto &actions = getContext().player->getController().getActions();
+		const auto &controller = getContext().player->getController();
 		for (const auto element : actions)
 		{
-			sf::Mouse::Button button = player.getInputFromMouseButtonAsButtonBinding(element->getGameEvent().getType());
+			sf::Mouse::Button button = controller.getInputFromMouseButtonAsButtonBinding(element->getGameEvent().getType());
 			if (button == sf::Mouse::Button::ButtonCount)
 				mouseBindState[index] = MouseButtonBindState(false, sf::Mouse::Button::ButtonCount);
 			else
@@ -197,7 +200,7 @@ void SettingsState::updateLabels()
 
 	// ALW - TODO - Joystick binding
 
-	for (std::size_t i = 0; i < Player::ActionCount; ++i)
+	for (std::size_t i = 0; i < Controller::ActionCount; ++i)
 	{
 		if (keyboardBindState[i].first && !mouseBindState[i].first)
 			mBindingLabels[i]->setText(trmb::toString(keyboardBindState[i].second));
@@ -211,7 +214,7 @@ void SettingsState::updateLabels()
 	}
 }
 
-void SettingsState::addButtonAndLabel(Player::Action action, float y, const std::string& text, trmb::State::Context context)
+void SettingsState::addButtonAndLabel(Controller::Action action, float y, const std::string& text, trmb::State::Context context)
 {
 	mBindingButtons[action] = std::make_shared<trmb::Button>(context, Fonts::ID::Main, SoundEffects::ID::Button, Textures::ID::Buttons, 200, 50);
 	mBindingButtons[action]->setPosition(20.f, y);

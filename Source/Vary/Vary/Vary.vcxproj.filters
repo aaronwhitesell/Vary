@@ -53,6 +53,9 @@
     <ClCompile Include="Player\devices.cpp">
       <Filter>Source Files\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Player\controller.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resources\resourceIdentifiers.h">
@@ -77,6 +80,9 @@
       <Filter>Header Files\States</Filter>
     </ClInclude>
     <ClInclude Include="Player\devices.h">
+      <Filter>Header Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\controller.h">
       <Filter>Header Files\Player</Filter>
     </ClInclude>
   </ItemGroup>

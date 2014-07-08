@@ -1,7 +1,7 @@
 #ifndef SETTINGS_STATE_H
 #define SETTINGS_STATE_H
 
-#include "../Player/player.h"
+#include "../Player/controller.h"
 
 #include "Trambo/GUI/button.h"
 #include "Trambo/GUI/container.h"
@@ -38,14 +38,14 @@ public:
 
 private:
 	void					updateLabels();
-	void					addButtonAndLabel(Player::Action action, float y, const std::string& text, trmb::State::Context context);
+	void					addButtonAndLabel(Controller::Action action, float y, const std::string& text, trmb::State::Context context);
 
 
 private:
-	sf::Sprite											mBackgroundSprite;
-	trmb::Container										mGUIContainer;
-	std::array<trmb::Button::Ptr, Player::ActionCount>	mBindingButtons;
-	std::array<trmb::Label::Ptr, Player::ActionCount>	mBindingLabels;
+	sf::Sprite												mBackgroundSprite;
+	trmb::Container											mGUIContainer;
+	std::array<trmb::Button::Ptr, Controller::ActionCount>	mBindingButtons;
+	std::array<trmb::Label::Ptr, Controller::ActionCount>	mBindingLabels;
 };
 
 #endif
