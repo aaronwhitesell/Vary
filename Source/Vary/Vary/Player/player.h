@@ -12,6 +12,15 @@ namespace sf
 class Player
 {
 public:
+	enum class MissionStatus
+	{
+		MissionRunning,
+		MissionSuccess,
+		MissionFailure
+	};
+
+
+public:
 							Player();
 							Player(const Player &) = delete;
 	Player &				operator=(const Player &) = delete;
@@ -22,9 +31,13 @@ public:
 	void					update();
 	void					handleEvent(const sf::Event &inputEvent);
 
+	void					setMissionStatus(MissionStatus status);
+	MissionStatus			getMissionStatus() const;
+
 
 private:
-	Controller								mController;
+	Controller				mController;
+	MissionStatus			mCurrentMissionStatus;
 };
 
 #endif

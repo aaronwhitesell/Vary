@@ -5,6 +5,7 @@
 
 Player::Player()
 : mController()
+, mCurrentMissionStatus(MissionStatus::MissionRunning)
 {
 }
 
@@ -26,4 +27,14 @@ void Player::update()
 void Player::handleEvent(const sf::Event &inputEvent)
 {
 	mController.handleEvent(inputEvent);
+}
+
+void Player::setMissionStatus(MissionStatus status)
+{
+	mCurrentMissionStatus = status;
+}
+
+Player::MissionStatus Player::getMissionStatus() const
+{
+	return mCurrentMissionStatus;
 }

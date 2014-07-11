@@ -30,6 +30,12 @@
     <Filter Include="Source Files\States">
       <UniqueIdentifier>{b1e2568b-dea2-4a34-b9ac-34a0f50d7e95}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Levels">
+      <UniqueIdentifier>{0a0856f3-8801-4c95-b270-01ba8daf36a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Levels">
+      <UniqueIdentifier>{2301bd53-fdaa-4804-b520-5275a6f58558}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -55,6 +61,12 @@
     </ClCompile>
     <ClCompile Include="Player\controller.cpp">
       <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="States\gameState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="Levels\world.cpp">
+      <Filter>Source Files\Levels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +96,12 @@
     </ClInclude>
     <ClInclude Include="Player\controller.h">
       <Filter>Header Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="States\gameState.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Levels\world.h">
+      <Filter>Header Files\Levels</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

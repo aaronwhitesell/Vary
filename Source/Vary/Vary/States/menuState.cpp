@@ -24,7 +24,7 @@ MenuState::MenuState(trmb::StateStack& stack, trmb::State::Context context)
 	playButton->setCallback([this] ()
 	{
 		requestStackPop();
-//		requestStackPush(States::ID::Game);
+		requestStackPush(States::ID::Game);
 	});
 
 	auto settingsButton = std::make_shared<trmb::Button>(context, Fonts::ID::Main, SoundEffects::ID::Button, Textures::ID::Buttons, 200, 50);
