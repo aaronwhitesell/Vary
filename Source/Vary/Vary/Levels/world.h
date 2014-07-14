@@ -1,11 +1,14 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+#include "../Entities/hero.h"
+
 #include "Trambo/Resources/resourceHolder.h"
 #include "Trambo/SceneNodes/sceneNode.h"
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/View.hpp>
+#include <SFML/System/Vector2.hpp>
 
 #include <array>
 
@@ -27,6 +30,7 @@ public:
 										World(const World &) = delete;
 	World &								operator=(const World &) = delete;
 
+	void								update(sf::Time dt);
 	void								draw();
 
 
@@ -56,6 +60,8 @@ private:
 	std::array<trmb::SceneNode *, LayerCount>	mSceneLayers;
 
 	sf::FloatRect								mWorldBounds;
+	sf::Vector2f								mSpawnPosition;
+	Hero										*mHero;
 };
 
 #endif

@@ -29,7 +29,7 @@ void GameState::draw()
 
 bool GameState::update(sf::Time dt)
 {
-//	mWorld.update(dt);
+	mWorld.update(dt);
 
 //	if (!mWorld.hasAlivePlayer())
 //	{
@@ -42,16 +42,14 @@ bool GameState::update(sf::Time dt)
 //		requestStackPush(States::ID::GameOver);
 //	}
 
-	// ALW - Game input handling
-	mPlayer.getController().update();
+	mPlayer.update();
 
 	return true;
 }
 
 bool GameState::handleEvent(const sf::Event &event)
 {
-	// ALW - Game input handling
-	mPlayer.getController().handleEvent(event);
+	mPlayer.handleEvent(event);
 
 	// Escape pressed, trigger the pause screen
 //	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)

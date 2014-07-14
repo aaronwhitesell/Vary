@@ -14,12 +14,12 @@ Controller::Controller()
 	mActionBindings.createAction(mShoot);
 
 	// ALW - Create a map of keyboard buttons and corresponding actions (default bindings)
-	mActionBindings.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(sf::Keyboard::Up,    trmb::KeyboardKeyAsButton::ButtonType::RealTime), mUp);
-	mActionBindings.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(sf::Keyboard::Down,  trmb::KeyboardKeyAsButton::ButtonType::RealTime), mDown);
-	mActionBindings.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(sf::Keyboard::Left,  trmb::KeyboardKeyAsButton::ButtonType::RealTime), mLeft);
-	mActionBindings.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(sf::Keyboard::Right, trmb::KeyboardKeyAsButton::ButtonType::RealTime), mRight);
-	mActionBindings.assignMouseButtonAsButtonBinding(trmb::MouseButtonAsButton(sf::Mouse::Right,    trmb::MouseButtonAsButton::ButtonType::RealTime), mJump);
-	mActionBindings.assignMouseButtonAsButtonBinding(trmb::MouseButtonAsButton(sf::Mouse::Left,		trmb::MouseButtonAsButton::ButtonType::RealTime), mShoot);
+	mActionBindings.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(sf::Keyboard::W,  trmb::KeyboardKeyAsButton::ButtonType::RealTime), mUp);
+	mActionBindings.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(sf::Keyboard::S,  trmb::KeyboardKeyAsButton::ButtonType::RealTime), mDown);
+	mActionBindings.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(sf::Keyboard::A,  trmb::KeyboardKeyAsButton::ButtonType::RealTime), mLeft);
+	mActionBindings.assignKeyboardKeyAsButtonBinding(trmb::KeyboardKeyAsButton(sf::Keyboard::D,  trmb::KeyboardKeyAsButton::ButtonType::RealTime), mRight);
+	mActionBindings.assignMouseButtonAsButtonBinding(trmb::MouseButtonAsButton(sf::Mouse::Right, trmb::MouseButtonAsButton::ButtonType::RealTime), mJump);
+	mActionBindings.assignMouseButtonAsButtonBinding(trmb::MouseButtonAsButton(sf::Mouse::Left,	 trmb::MouseButtonAsButton::ButtonType::RealTime), mShoot);
 }
 
 const trmb::ActionBinding::EventGuid Controller::getUp() const

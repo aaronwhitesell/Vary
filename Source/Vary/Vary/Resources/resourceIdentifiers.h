@@ -8,6 +8,7 @@ namespace Textures
 	{
 		Buttons,
 		Grass,
+		Heroes,
 		TitleScreen,
 	};
 }

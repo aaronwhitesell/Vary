@@ -8,7 +8,7 @@
 #include <SFML/Graphics/RenderTexture.hpp>
 
 
-World::World(sf::RenderTarget &outputTarget, trmb::FontHolder &fonts, trmb::SoundPlayer &sounds)
+World::World(sf::RenderTarget& outputTarget, trmb::FontHolder& fonts, trmb::SoundPlayer& sounds)
 : mTarget(outputTarget)
 , mWorldView(outputTarget.getDefaultView())
 , mTextures()
@@ -17,9 +17,19 @@ World::World(sf::RenderTarget &outputTarget, trmb::FontHolder &fonts, trmb::Soun
 , mSceneGraph()
 , mSceneLayers()
 , mWorldBounds(0.f, 0.f, mWorldView.getSize().x, mWorldView.getSize().y)
+, mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f)
+, mHero(nullptr)
 {
 	loadTextures();
 	buildScene();
+
+	// Prepare the view
+	mWorldView.setCenter(mSpawnPosition);
+}
+
+void World::update(sf::Time dt)
+{
+	mSceneGraph.update(dt);
 }
 
 void World::draw()
@@ -30,7 +40,8 @@ void World::draw()
 
 void World::loadTextures()
 {
-	mTextures.load(Textures::ID::Grass, "Data/Textures/Grass.png");
+	mTextures.load(Textures::ID::Grass,      "Data/Textures/Grass.png");
+	mTextures.load(Textures::ID::Heroes,	 "Data/Textures/Heroes.png");
 }
 
 void World::buildScene()
@@ -54,4 +65,10 @@ void World::buildScene()
 	std::unique_ptr<trmb::SpriteNode> GrassSprite(new trmb::SpriteNode(GrassTexture, textureRect));
 	GrassSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
 	mSceneLayers[Background]->attachChild(std::move(GrassSprite));
+
+	// Add player's character
+	std::unique_ptr<Hero> player(new Hero(Hero::Type::Wizard, mTextures, mFonts));
+	mHero = player.get();
+	mHero->setPosition(mSpawnPosition);
+	mSceneLayers[Middleground]->attachChild(std::move(player));
 }
