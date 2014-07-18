@@ -10,7 +10,7 @@
 class Camera
 {
 public:
-	explicit				Camera(const sf::View &view);
+							Camera(const sf::View &view, sf::FloatRect worldBounds);
 							Camera(const Camera &) = delete;
 	Camera &				operator=(const Camera &) = delete;
 
@@ -19,16 +19,17 @@ public:
 
 	void					setHero(Hero *hero);
 
-	void					update(sf::FloatRect worldBounds);
+	void					update();
 
 
 private:
-	void					correctPosition(sf::FloatRect worldBounds);
+	void					correctPosition();
 
 
 private:
 	sf::View				mView;
 	Hero					*mHero;
+	sf::FloatRect			mWorldBounds;
 };
 
 #endif

@@ -10,13 +10,15 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
+#include <algorithm>
 #include <cassert>
 
 
-Hero::Hero(Type type, const trmb::TextureHolder &textures, const trmb::FontHolder &fonts)
+Hero::Hero(Type type, const trmb::TextureHolder &textures, const trmb::FontHolder &fonts, sf::FloatRect worldBounds)
 : Entity()
 , mType(type)
 , mSprite()
+, mWorldBounds(worldBounds)
 {
 	readXML(mType);
 	setHitpoints(mData.hitpoints);
@@ -53,16 +55,12 @@ void Hero::handleEvent(const trmb::Event &gameEvent)
 	}
 }
 
-void Hero::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
-{
-		target.draw(mSprite, states);
-}
-
 void Hero::updateCurrent(sf::Time dt)
 {
+	correctDiagonalVelocity();
 	accelerate(trmb::Entity::getVelocity() * getMaxSpeed());
-
 	trmb::Entity::updateCurrent(dt);
+	correctPosition();
 }
 
 sf::FloatRect Hero::getBoundingRect() const
@@ -80,6 +78,38 @@ bool Hero::isAllied() const
 float Hero::getMaxSpeed() const
 {
 	return mData.speed;
+}
+
+void Hero::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(mSprite, states);
+}
+
+void Hero::correctPosition()
+{
+	// ALW - If the camera moves outside the boundaries of the world then
+	// ALW - move it back to the world boundary.
+	sf::Vector2f position = getPosition();
+
+	sf::Vector2f heroHalfDimensions; // ALW - Accounts for origin being set to the center of the sprite
+	heroHalfDimensions.x = getBoundingRect().width / 2.0f;
+	heroHalfDimensions.y = getBoundingRect().height / 2.0f;
+
+	position.x = std::max(position.x, mWorldBounds.left + heroHalfDimensions.x);
+	position.x = std::min(position.x, mWorldBounds.left + mWorldBounds.width - heroHalfDimensions.x);
+	position.y = std::max(position.y, mWorldBounds.top + heroHalfDimensions.y);
+	position.y = std::min(position.y, mWorldBounds.top + mWorldBounds.height - heroHalfDimensions.y);
+
+	setPosition(position);
+}
+
+void Hero::correctDiagonalVelocity()
+{
+	sf::Vector2f velocity = getVelocity();
+
+	// ALW - If moving diagonally, correct velocity
+	if (velocity.x != 0.0f && velocity.y != 0.0f)
+		setVelocity(velocity / std::sqrt(2.0f));
 }
 
 std::string Hero::toString(Type type) const

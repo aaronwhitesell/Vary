@@ -36,19 +36,23 @@ public:
 
 
 public:
-							Hero(Type type, const trmb::TextureHolder &textures, const trmb::FontHolder &fonts);
+							Hero(Type type, const trmb::TextureHolder &textures, const trmb::FontHolder &fonts, sf::FloatRect worldBounds);
 							Hero(Hero &) = delete;
 	Hero &					operator=(Hero &) = delete;
 
 	virtual void			handleEvent(const trmb::Event &gameEvent);
 	virtual void			updateCurrent(sf::Time dt);
 	virtual sf::FloatRect	getBoundingRect() const;
+
 	bool					isAllied() const;
 	float					getMaxSpeed() const;
 
 
 private:
 	virtual void			drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
+
+	void					correctPosition();
+	void					correctDiagonalVelocity();
 
 	std::string				toString(Type type) const;
 	Textures::ID			toTexture(const std::string &str) const;
@@ -69,6 +73,7 @@ private:
 private:
 	Type					mType;
 	sf::Sprite				mSprite;
+	sf::FloatRect			mWorldBounds;
 	Data					mData;
 };
 

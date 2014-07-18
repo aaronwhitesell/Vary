@@ -36,8 +36,6 @@ public:
 
 
 private:
-	void								correctHeroPosition();
-
 	void								loadTextures();
 	void								buildScene();
 
@@ -54,7 +52,6 @@ private:
 
 private:
 	sf::RenderTarget							&mTarget;
-	Camera										mCamera;
 	trmb::TextureHolder							mTextures;
 	trmb::FontHolder							&mFonts;
 	trmb::SoundPlayer							&mSounds;
@@ -64,6 +61,8 @@ private:
 
 	sf::FloatRect								mWorldBounds;
 	sf::Vector2f								mSpawnPosition;
+
+	Camera										mCamera;
 	Hero										*mHero;
 };
 
