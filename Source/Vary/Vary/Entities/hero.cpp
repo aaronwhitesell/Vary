@@ -11,7 +11,6 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 #include <cassert>
-//#include <cmath>
 
 
 Hero::Hero(Type type, const trmb::TextureHolder &textures, const trmb::FontHolder &fonts)
@@ -40,16 +39,16 @@ void Hero::handleEvent(const trmb::Event &gameEvent)
 	switch (gameEvent.getType())
 	{
 	case mUp:
-		accelerate(0.f, -1.0);
+		accelerate(0.0f, -1.0f);
 		break;
 	case mDown:
-		accelerate(0.f, 1.0);
+		accelerate(0.0f, 1.0f);
 		break;
 	case mLeft:
-		accelerate(-1.0, 0.f);
+		accelerate(-1.0f, 0.0f);
 		break;
 	case mRight:
-		accelerate(1.0, 0.f);
+		accelerate(1.0f, 0.0f);
 		break;
 	}
 }
@@ -62,6 +61,7 @@ void Hero::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 void Hero::updateCurrent(sf::Time dt)
 {
 	accelerate(trmb::Entity::getVelocity() * getMaxSpeed());
+
 	trmb::Entity::updateCurrent(dt);
 }
 

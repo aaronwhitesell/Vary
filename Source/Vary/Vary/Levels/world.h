@@ -2,6 +2,7 @@
 #define WORLD_H
 
 #include "../Entities/hero.h"
+#include "../Camera/camera.h"
 
 #include "Trambo/Resources/resourceHolder.h"
 #include "Trambo/SceneNodes/sceneNode.h"
@@ -35,6 +36,8 @@ public:
 
 
 private:
+	void								correctHeroPosition();
+
 	void								loadTextures();
 	void								buildScene();
 
@@ -51,7 +54,7 @@ private:
 
 private:
 	sf::RenderTarget							&mTarget;
-	sf::View									mWorldView;
+	Camera										mCamera;
 	trmb::TextureHolder							mTextures;
 	trmb::FontHolder							&mFonts;
 	trmb::SoundPlayer							&mSounds;
