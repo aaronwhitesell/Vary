@@ -6,6 +6,7 @@
 
 #include "Trambo/Resources/resourceHolder.h"
 #include "Trambo/SceneNodes/sceneNode.h"
+#include "Trambo/Tiles/map.h"
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/View.hpp>
@@ -63,6 +64,7 @@ private:
 	sf::Vector2f								mSpawnPosition;
 
 	Camera										mCamera;
+	trmb::Map									mMap;
 	Hero										*mHero;
 };
 

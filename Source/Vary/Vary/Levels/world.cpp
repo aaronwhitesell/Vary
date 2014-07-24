@@ -1,6 +1,7 @@
 #include "world.h"
 #include "../Resources/resourceIdentifiers.h"
 
+#include "Trambo/SceneNodes/mapLayerNode.h"
 #include "Trambo/SceneNodes/spriteNode.h"
 #include "Trambo/Sounds/soundPlayer.h"
 
@@ -17,9 +18,10 @@ World::World(sf::RenderTarget& outputTarget, trmb::FontHolder& fonts, trmb::Soun
 , mSounds(sounds)
 , mSceneGraph()
 , mSceneLayers()
-, mWorldBounds(0.f, 0.f, 1600.0, 1200.0)
+, mWorldBounds(0.f, 0.f, 1600.0, 1600.0)
 , mSpawnPosition(mWorldBounds.width / 2.f, mWorldBounds.height / 2.f)
 , mCamera(outputTarget.getDefaultView(), mWorldBounds)
+, mMap("Data/Maps/World.tmx")
 , mHero(nullptr)
 {
 	loadTextures();
@@ -31,8 +33,8 @@ World::World(sf::RenderTarget& outputTarget, trmb::FontHolder& fonts, trmb::Soun
 
 void World::update(sf::Time dt)
 {
-	mSceneGraph.update(dt);					// ALW - Update the hero along with the rest of the scene graph
-	mCamera.update();						// ALW - Update the camera position
+	mSceneGraph.update(dt);		// ALW - Update the hero along with the rest of the scene graph
+	mCamera.update();			// ALW - Update the camera position
 }
 
 void World::draw()
@@ -43,14 +45,12 @@ void World::draw()
 
 void World::loadTextures()
 {
-	mTextures.load(Textures::ID::Grass,      "Data/Textures/Grass.png");
-	mTextures.load(Textures::ID::Heroes,	 "Data/Textures/Heroes.png");
+	mTextures.load(Textures::ID::Heroes, "Data/Textures/Heroes.png");
 }
 
 void World::buildScene()
 {
 	// Initialize the different layers
-
 	for (std::size_t i = 0; i < LayerCount; ++i)
 	{
 		trmb::SceneNode::Ptr layer(new trmb::SceneNode());
@@ -59,16 +59,13 @@ void World::buildScene()
 		mSceneGraph.attachChild(std::move(layer));
 	}
 
-	// Prepare the tiled background
-	sf::Texture &GrassTexture = mTextures.get(Textures::ID::Grass);
-	GrassTexture.setRepeated(true);
+	// Add tiled background
+	std::unique_ptr<trmb::MapLayerNode> layer0(new trmb::MapLayerNode(mMap, 0));
+	mSceneLayers[Background]->attachChild(std::move(layer0));
 
-	sf::IntRect textureRect(mWorldBounds);
-
-	// Add the background sprite to the scene
-	std::unique_ptr<trmb::SpriteNode> GrassSprite(new trmb::SpriteNode(GrassTexture, textureRect));
-	GrassSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
-	mSceneLayers[Background]->attachChild(std::move(GrassSprite));
+	// Add tiled foreground
+	std::unique_ptr<trmb::MapLayerNode> layer1(new trmb::MapLayerNode(mMap, 1));
+	mSceneLayers[Foreground]->attachChild(std::move(layer1));
 
 	// Add player's character
 	std::unique_ptr<Hero> player(new Hero(Hero::Type::Wizard, mTextures, mFonts, mWorldBounds));
