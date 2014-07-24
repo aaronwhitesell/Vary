@@ -1,13 +1,10 @@
 #include "camera.h"
 
-#include <SFML/System/Vector2.hpp>
-
 #include <algorithm>
 
 
 Camera::Camera(const sf::View &view, sf::FloatRect worldBounds)
 : mView(view)
-, mHero(nullptr)
 , mWorldBounds(worldBounds)
 {
 }
@@ -17,15 +14,10 @@ sf::View & Camera::getView()
 	return mView;
 }
 
-void Camera::setHero(Hero *hero)
+void Camera::update(sf::Vector2f position)
 {
-	mHero = hero;
-}
-
-void Camera::update()
-{
-	mView.setCenter(mHero->getPosition()); // ALW - Center camera over hero
-	correctPosition();					   // ALW - Correct camera position, if is outside world
+	mView.setCenter(position); // ALW - Center camera over new position
+	correctPosition();		   // ALW - Correct camera position, if it is outside the world
 }
 
 void Camera::correctPosition()

@@ -1,10 +1,9 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "../Entities/hero.h"
-
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/View.hpp>
+#include <SFML/System/Vector2.hpp>
 
 
 class Camera
@@ -17,9 +16,7 @@ public:
 	sf::View &				getView();
 	sf::FloatRect			getViewBounds() const;
 
-	void					setHero(Hero *hero);
-
-	void					update();
+	void					update(sf::Vector2f position);
 
 
 private:
@@ -28,7 +25,6 @@ private:
 
 private:
 	sf::View				mView;
-	Hero					*mHero;
 	sf::FloatRect			mWorldBounds;
 };
 

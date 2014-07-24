@@ -26,15 +26,12 @@ World::World(sf::RenderTarget& outputTarget, trmb::FontHolder& fonts, trmb::Soun
 {
 	loadTextures();
 	buildScene();
-
-	// ALW - Center the camera on the hero
-	mCamera.getView().setCenter(mSpawnPosition);
 }
 
 void World::update(sf::Time dt)
 {
-	mSceneGraph.update(dt);		// ALW - Update the hero along with the rest of the scene graph
-	mCamera.update();			// ALW - Update the camera position
+	mSceneGraph.update(dt);					// ALW - Update the hero along with the rest of the scene graph
+	mCamera.update(mHero->getPosition());	// ALW - Update the camera position
 }
 
 void World::draw()
@@ -72,5 +69,4 @@ void World::buildScene()
 	mHero = player.get();
 	mHero->setPosition(mSpawnPosition);
 	mSceneLayers[Middleground]->attachChild(std::move(player));
-	mCamera.setHero(mHero);
 }
