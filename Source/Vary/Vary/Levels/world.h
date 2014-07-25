@@ -2,8 +2,8 @@
 #define WORLD_H
 
 #include "../Entities/hero.h"
-#include "../Camera/camera.h"
 
+#include "Trambo/Camera/camera.h"
 #include "Trambo/Resources/resourceHolder.h"
 #include "Trambo/SceneNodes/sceneNode.h"
 #include "Trambo/Tiles/map.h"
@@ -63,7 +63,7 @@ private:
 	sf::FloatRect								mWorldBounds;
 	sf::Vector2f								mSpawnPosition;
 
-	Camera										mCamera;
+	trmb::Camera								mCamera;
 	trmb::Map									mMap;
 	Hero										*mHero;
 };

@@ -42,12 +42,6 @@
     <Filter Include="Source Files\Entities">
       <UniqueIdentifier>{66a35521-b733-4d52-babb-12dbb19e2877}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Camera">
-      <UniqueIdentifier>{b7556886-e1f9-41e5-9b86-6062ed90d6fc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Camera">
-      <UniqueIdentifier>{bf61a97f-1262-499c-9dfa-4e71f152d185}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -82,9 +76,6 @@
     </ClCompile>
     <ClCompile Include="Entities\hero.cpp">
       <Filter>Source Files\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera\camera.cpp">
-      <Filter>Source Files\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -123,9 +114,6 @@
     </ClInclude>
     <ClInclude Include="Entities\hero.h">
       <Filter>Header Files\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera\camera.h">
-      <Filter>Header Files\Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
