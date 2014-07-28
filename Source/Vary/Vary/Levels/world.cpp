@@ -60,9 +60,13 @@ void World::buildScene()
 	std::unique_ptr<trmb::MapLayerNode> layer0(new trmb::MapLayerNode(mMap, 0));
 	mSceneLayers[Background]->attachChild(std::move(layer0));
 
-	// Add tiled foreground
+	// Add tiled houses
 	std::unique_ptr<trmb::MapLayerNode> layer1(new trmb::MapLayerNode(mMap, 1));
 	mSceneLayers[Foreground]->attachChild(std::move(layer1));
+
+	// Add tiled roofs
+	std::unique_ptr<trmb::MapLayerNode> layer2(new trmb::MapLayerNode(mMap, 2));
+	mSceneLayers[Foreground]->attachChild(std::move(layer2));
 
 	// Add player's character
 	std::unique_ptr<Hero> player(new Hero(Hero::Type::Wizard, mTextures, mFonts, mWorldBounds));

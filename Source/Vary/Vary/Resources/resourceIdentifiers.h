@@ -7,7 +7,6 @@ namespace Textures
 	enum class ID
 	{
 		Buttons,
-		Grass,
 		Heroes,
 		TitleScreen,
 	};
