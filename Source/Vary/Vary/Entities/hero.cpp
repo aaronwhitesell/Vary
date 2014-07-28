@@ -12,6 +12,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cmath>
 
 
 Hero::Hero(Type type, const trmb::TextureHolder &textures, const trmb::FontHolder &fonts, sf::FloatRect worldBounds)
@@ -99,6 +100,12 @@ void Hero::correctPosition()
 	position.x = std::min(position.x, mWorldBounds.left + mWorldBounds.width - heroHalfDimensions.x);
 	position.y = std::max(position.y, mWorldBounds.top + heroHalfDimensions.y);
 	position.y = std::min(position.y, mWorldBounds.top + mWorldBounds.height - heroHalfDimensions.y);
+
+	// ALW - Round down to the the nearest whole number to assure there is a 1:1
+	// ALW - mapping of pixels in the window to texels (pixels in the texture).
+	// ALW - This is done to avoid graphical tearing.
+	position.x = std::floor(position.x);
+	position.y = std::floor(position.y);
 
 	setPosition(position);
 }
