@@ -12,6 +12,7 @@
 #include "Trambo/States/state.h"
 #include "Trambo/Utilities/utility.h"
 
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/VideoMode.hpp>
@@ -32,6 +33,7 @@ Application::Application()
 	, mStatisticsText()
 	, mStatisticsUpdateTime()
 	, mStatisticsNumFrames(0)
+	, mToggleFullscreen(mWindow)
 {
 	mWindow.setKeyRepeatEnabled(false);
 
@@ -86,6 +88,8 @@ void Application::processInput()
 	sf::Event event;
 	while (mWindow.pollEvent(event))
 	{
+		mToggleFullscreen.handleEvent(event);
+
 		if (trmb::isWindowFocused(mWindow))
 			mStateStack.handleEvent(event);
 
@@ -102,7 +106,8 @@ void Application::update(sf::Time dt)
 
 void Application::render()
 {
-	mWindow.clear();
+	// ALW - Clear the backgroun to match menu
+	mWindow.clear(sf::Color(18u, 1u, 34u, 255u));
 
 	mStateStack.draw();
 

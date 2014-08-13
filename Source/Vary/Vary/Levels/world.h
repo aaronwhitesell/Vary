@@ -4,6 +4,7 @@
 #include "../Entities/hero.h"
 
 #include "Trambo/Camera/camera.h"
+#include "Trambo/Events/eventHandler.h"
 #include "Trambo/Resources/resourceHolder.h"
 #include "Trambo/SceneNodes/sceneNode.h"
 #include "Trambo/Tiles/map.h"
@@ -22,21 +23,28 @@ namespace sf
 
 namespace trmb
 {
+	class Event;
 	class SoundPlayer;
 }
 
-class World
+class World : public trmb::EventHandler
 {
 public:
 										World(sf::RenderTarget &outputTarget, trmb::FontHolder &fonts, trmb::SoundPlayer &sounds);
 										World(const World &) = delete;
 	World &								operator=(const World &) = delete;
 
-	void								update(sf::Time dt);
 	void								draw();
+	void								update(sf::Time dt);
+	virtual void						handleEvent(const trmb::Event &gameEvent);
 
 
 private:
+	typedef unsigned long EventGuid;
+
+private:
+	const EventGuid						mFullscreen; // ALW - Matches the GUID in the ToggleFullscreen class.
+	const EventGuid						mWindowed;   // ALW - Matches the GUID in the ToggleFullscreen class.
 	void								loadTextures();
 	void								buildScene();
 
