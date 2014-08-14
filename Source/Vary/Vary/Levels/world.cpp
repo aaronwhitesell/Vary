@@ -49,6 +49,9 @@ void World::handleEvent(const trmb::Event &gameEvent)
 	if (mFullscreen == gameEvent.getType() || mWindowed == gameEvent.getType())
 	{
 		mCamera.setSize(mTarget.getDefaultView().getSize());
+
+		// ALW - Manually correct position of camera, necessary when pause menu is active.
+		mCamera.update(mHero->getPosition());
 	}
 }
 
